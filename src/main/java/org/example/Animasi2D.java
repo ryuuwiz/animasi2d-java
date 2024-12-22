@@ -11,13 +11,19 @@ import java.awt.Graphics2D;
 public class Animasi2D extends JPanel {
 
     private int x = 0;
+    private int y = 0;
+    private int deltaX = 2;
+    private int deltaY = 2;
 
     public Animasi2D() {
         this.setPreferredSize(new Dimension(800, 400));
         this.setBackground(Color.WHITE);
         Timer timer = new Timer(10, e -> {
-            x += 2;
-            if (x > getWidth()) x = -50;
+            x += deltaX;
+            y += deltaY;
+            // Pantulan jika mencapai tepi panel
+            if (x < 0 || x + 50 > getWidth()) deltaX = -deltaX;
+            if (y < 0 || y + 50 > getHeight()) deltaY = -deltaY;
             repaint();
         });
         timer.start();
@@ -28,11 +34,7 @@ public class Animasi2D extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
-
         g2d.setColor(Color.BLUE);
-        int y = 100;
         g2d.fillOval(x, y, 50, 50);
     }
 
